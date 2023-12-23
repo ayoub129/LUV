@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Define your API endpoint
-app.post('/api/sendEmail',  (req, res) => {
+app.post('/api/sendEmail', cors(corsOptions),   (req, res) => {
   const { sceneNameWithoutExtension, size, details } = req.body;
 
   // Create a transporter using nodemailer
