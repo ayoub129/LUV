@@ -9,7 +9,7 @@ const PayPalButton = ({ onSuccess, onError }) => {
       purchase_units: [
         {
           amount: {
-            value: "1.00", 
+            value: "65.00", 
           },
         },
       ],
