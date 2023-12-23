@@ -7,12 +7,9 @@ require('dotenv').config(); // Load environment variables from .env file
 const app = express();
 const port = process.env.PORT || 3001; // Choose the port you want to use
 
-const corsOptions = {
-  origin: 'https://luv-woad.vercel.app/',
-  methods: 'POST',
-};
 
-app.use(cors(corsOptions)); // Enable CORS for all routes
+
+app.use(cors()); // Enable CORS for all routes
 
 
 // Middleware to parse JSON data
