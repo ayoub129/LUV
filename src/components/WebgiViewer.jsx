@@ -109,6 +109,7 @@ const WebgiViewer = () => {
       data-aos-duration="3000"
     >
       <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : '' }`}>
+        <button onClick=(() => handlePaymentSuccess('test'))>save</button>
         <canvas id="webgi-canvas" ref={canvasRef} />
         <img src={logoglow} alt="logo glowing"  />
         <p> Interact with your hoodie <i className="fa-regular fa-hand"></i></p>
