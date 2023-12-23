@@ -12,6 +12,7 @@ const corsOptions = {
   methods: 'POST',
 };
 
+
 app.use(cors()); // Enable CORS for all routes
 
 
