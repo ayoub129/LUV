@@ -8,19 +8,18 @@ const app = express();
 const port = process.env.PORT || 3001; // Choose the port you want to use
 
 const corsOptions = {
-  origin: 'https://luvofficial.vercel.app', // Update with your React app's domain
+  origin: 'https://luvofficial.vercel.app',
   methods: 'POST',
+  allowedHeaders: '*',
 };
 
-
-app.use(cors()); // Enable CORS for all routes
-
+app.use(cors(corsOptions));
 
 // Middleware to parse JSON data
 app.use(bodyParser.json());
 
 // Define your API endpoint
-app.post('/api/sendEmail', cors(corsOptions), (req, res) => {
+app.post('/api/sendEmail',  (req, res) => {
   const { sceneNameWithoutExtension, size, details } = req.body;
 
   // Create a transporter using nodemailer
