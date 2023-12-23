@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/sendEmail",
+      "methods": ["POST"],
+      "allow": ["https://luvofficial.vercel.app"]
+    }
+  ]
+}
