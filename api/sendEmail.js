@@ -20,15 +20,11 @@ app.use(bodyParser.json());
 
 // Define your API endpoint
 app.post('/api/sendEmail', cors(corsOptions),   (req, res) => {
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    // another common pattern
-    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    )
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', 'https://luvofficial.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
 
   const { sceneNameWithoutExtension, size, details } = req.body;
 
@@ -62,7 +58,7 @@ app.post('/api/sendEmail', cors(corsOptions),   (req, res) => {
     if (error) {
       return res.status(500).json({ error: 'Error sending email' });
     }
-    res.status(200).json({ message: 'Email sent successfully', info + req.body });
+    res.status(200).json({ message: 'Email sent successfully', info  });
   });
 });
 
