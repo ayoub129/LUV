@@ -41,7 +41,8 @@ const WebgiViewer = () => {
   
   const handlePaymentSuccess = async (details) => {
     const sceneNameWithoutExtension = scene.split(".")[0];
-    
+          console.log({sceneNameWithoutExtension, size , details})
+
     try {
       const response = await fetch('https://luvofficial.vercel.app/api/sendEmail', {
         mode: 'no-cors',
@@ -52,7 +53,6 @@ const WebgiViewer = () => {
         body: JSON.stringify({ sceneNameWithoutExtension, size , details }),
       });
 
-      console.log({sceneNameWithoutExtension, size , details})
       const result = await response.json();
       setSuccess("Payment placed successfully. We will ship your hoodie soon.")
     } catch (error) {
