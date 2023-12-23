@@ -41,11 +41,9 @@ const WebgiViewer = () => {
   
   const handlePaymentSuccess = async (details) => {
     const sceneNameWithoutExtension = scene.split(".")[0];
-          console.log({sceneNameWithoutExtension, size , details})
 
     try {
       const response = await fetch('https://luvofficial.vercel.app/api/sendEmail', {
-        mode: 'no-cors',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
