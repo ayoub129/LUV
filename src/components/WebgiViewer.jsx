@@ -43,7 +43,7 @@ const WebgiViewer = () => {
     const sceneNameWithoutExtension = scene.split(".")[0];
     
     try {
-      const response = await fetch('https://luv-woad.vercel.app/api/sendEmail', {
+      const response = await fetch('https://luvofficial.vercel.app/api/sendEmail', {
         mode: 'no-cors',
         method: 'POST',
         headers: {
