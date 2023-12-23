@@ -62,7 +62,7 @@ app.post('/api/sendEmail', cors(corsOptions),   (req, res) => {
     if (error) {
       return res.status(500).json({ error: 'Error sending email' });
     }
-    res.status(200).json({ message: 'Email sent successfully', info });
+    res.status(200).json({ message: 'Email sent successfully', info + req.body });
   });
 });
 
