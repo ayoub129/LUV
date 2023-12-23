@@ -51,7 +51,8 @@ const WebgiViewer = () => {
         },
         body: JSON.stringify({ sceneNameWithoutExtension, size , details }),
       });
-  
+
+      console.log({sceneNameWithoutExtension, size , details})
       const result = await response.json();
       setSuccess("Payment placed successfully. We will ship your hoodie soon.")
     } catch (error) {
