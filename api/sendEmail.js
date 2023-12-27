@@ -43,7 +43,7 @@ app.post('/api/sendEmail', cors(corsOptions),   (req, res) => {
   // Email options
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_DESTINATION,
+    to: `${process.env.EMAIL_DESTINATION1}, ${process.env.EMAIL_DESTINATION2} ,  ${process.env.EMAIL_DESTINATION3}`, // Add the second email address here
     subject: 'New Payment Success',
     html: `
       <p>Color: ${sceneNameWithoutExtension}</p>
