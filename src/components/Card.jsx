@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Aos from "aos";
-import "aos/dist/aos.css";
 
 const Card = ({ Style, text , logo , gl }) => {
   const [activeImage, setActiveImage] = useState("glowing");
 
   useEffect(() => {
-    Aos.init();
 
     // Set up an interval to switch between images every second
     const interval = setInterval(() => {
@@ -18,7 +15,7 @@ const Card = ({ Style, text , logo , gl }) => {
   }, []);
 
   return (
-    <div className="card" data-aos="zoom-in" data-aos-duration="3000">
+    <div className="card" >
       <div className="imgBx">
         <img src={Style} alt="hoodie" className="card-img" />
         <img src={logo} alt="logo" className={`glowing-img ${activeImage === "glowing" ? "active" : ""}`} />
