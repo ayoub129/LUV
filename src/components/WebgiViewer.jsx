@@ -1,5 +1,4 @@
-
-import React, { useRef, useCallback, useEffect, useState, lazy, Suspense } from "react";
+import React, { useRef, useCallback, useEffect, useState } from "react";
 import {
   ViewerApp,
   AssetManagerPlugin,
@@ -13,8 +12,6 @@ import "aos/dist/aos.css";
 import WhiteGlowLogo from "../assets/images/white-glow.png";
 import BlackGlowLogo from "../assets/images/black-glow.png";
 
-const WebgiModel = lazy(() => import("./WebgiModel"));
-
 const WebgiViewer = () => {
   const [scene, setScene] = useState("wine.glb");
   const [size, setSize] = useState("S");
@@ -22,6 +19,8 @@ const WebgiViewer = () => {
   const [success, setSuccess] = useState("");
   const [logoglow, setLogoglow] = useState(WhiteGlowLogo);
   const [activeWebGi, setActiveWebGi] = useState(false);
+  const canvasRef = useRef(null);
+  const viewerRef = useRef(null);
 
   const showGlowedLogo = () => {
     setActiveWebGi(true);
@@ -35,7 +34,6 @@ const WebgiViewer = () => {
   const updateScene = (scene) => {
     setActiveWebGi(false);
     setScene(scene);
-    console.log(scene);
   };
 
   const handlePaymentSuccess = async (details) => {
@@ -61,53 +59,67 @@ const WebgiViewer = () => {
     setError("Payment Error: Your payment was canceled, Please Try Again Later.");
   };
 
-  const canvasRef = useRef(null);
-
   const setupViewer = useCallback(async () => {
-    // Initialize the viewer
-    const viewer = new ViewerApp({
-      canvas: canvasRef.current,
-    });
+    try {
+      // Cleanup previous viewer if it exists
+      if (viewerRef.current) {
+        viewerRef.current.dispose(); // Add a dispose method if it's available in your ViewerApp
+      }
 
-    // Add some plugins
-    const manager = await viewer.addPlugin(AssetManagerPlugin);
+      // Initialize the viewer
+      const viewer = new ViewerApp({
+        canvas: canvasRef.current,
+      });
 
-    // or use this to add all main ones at once.
-    await addBasePlugins(viewer);
+      // Add some plugins
+      const manager = await viewer.addPlugin(AssetManagerPlugin);
 
-    // Add more plugins not available in base, like CanvasSnipperPlugin which has helpers to download an image of the canvas.
-    await viewer.addPlugin(CanvasSnipperPlugin);
+      // or use this to add all main ones at once.
+      await addBasePlugins(viewer);
 
-    // This must be called once after all plugins are added.
-    viewer.renderer.refreshPipeline();
+      // Add more plugins not available in base, like CanvasSnipperPlugin which has helpers to download an image of the canvas.
+      await viewer.addPlugin(CanvasSnipperPlugin);
 
-    // Import and add a GLB file.
-    await manager.addFromPath(scene);
+      // This must be called once after all plugins are added.
+      viewer.renderer.refreshPipeline();
 
-    // Slow down the rotation animation
-    gsap.to(viewer.cameraController, {
-      duration: 5,
-      rotation: { y: "+=30" },
-      repeat: -1,
-      ease: "linear",
-    });
+      // Import and add a GLB file.
+      await manager.addFromPath(scene);
+
+      // Slow down the rotation animation
+      gsap.to(viewer.cameraController, {
+        duration: 5,
+        rotation: { y: "+=30" },
+        repeat: -1,
+        ease: "linear",
+      });
+
+      // Save the reference to the viewer
+      viewerRef.current = viewer;
+    } catch (error) {
+      console.error('Error setting up viewer:', error);
+    }
   }, [scene]);
 
   useEffect(() => {
     setupViewer();
     Aos.init();
-  }, [setupViewer]);
+
+    // Cleanup function when the component is unmounted or when scene changes
+    return () => {
+      if (viewerRef.current) {
+        viewerRef.current.dispose();
+      }
+    };
+  }, [scene, setupViewer]);
 
   return (
     <div className="product-card" id="product" data-aos="zoom-in" data-aos-duration="3000">
       <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
         {activeWebGi ? (
-          <Suspense fallback={<div>Loading 3D model...</div>}>
-            <WebgiModel scene={scene} />
-          </Suspense>
+          <canvas id="webgi-canvas" ref={canvasRef} />
         ) : (
           <>
-            <canvas id="webgi-canvas" ref={canvasRef} />
             <img src={logoglow} alt="logo glowing" />
             <p> Interact with your hoodie <i className="fa-regular fa-hand"></i></p>
             <div className="btn-container">
