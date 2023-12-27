@@ -60,47 +60,35 @@ const WebgiViewer = () => {
   };
 
   const setupViewer = useCallback(async () => {
-    try {
-      // Cleanup previous viewer if it exists
-      if (viewerRef.current) {
-        viewerRef.current.dispose(); // Add a dispose method if it's available in your ViewerApp
-      }
-
-      // Initialize the viewer
-      const viewer = new ViewerApp({
-        canvas: canvasRef.current,
-      });
-
-      // Add some plugins
-      const manager = await viewer.addPlugin(AssetManagerPlugin);
-
-      // or use this to add all main ones at once.
-      await addBasePlugins(viewer);
-
-      // Add more plugins not available in base, like CanvasSnipperPlugin which has helpers to download an image of the canvas.
-      await viewer.addPlugin(CanvasSnipperPlugin);
-
-      // This must be called once after all plugins are added.
-      viewer.renderer.refreshPipeline();
-
-      // Import and add a GLB file.
-      await manager.addFromPath(scene);
-
-      // Slow down the rotation animation
-      gsap.to(viewer.cameraController, {
-        duration: 5,
-        rotation: { y: "+=30" },
-        repeat: -1,
-        ease: "linear",
-      });
-
-      // Save the reference to the viewer
-      viewerRef.current = viewer;
-    } catch (error) {
-      console.error('Error setting up viewer:', error);
+  try {
+    if (viewerRef.current) {
+      viewerRef.current.dispose();
     }
-  }, [scene]);
 
+    const viewer = new ViewerApp({
+      canvas: canvasRef.current,
+    });
+
+    const manager = await viewer.addPlugin(AssetManagerPlugin);
+    await addBasePlugins(viewer);
+    await viewer.addPlugin(CanvasSnipperPlugin);
+    viewer.renderer.refreshPipeline();
+
+    await manager.addFromPath(scene);
+
+    gsap.to(viewer.cameraController, {
+      duration: 5,
+      rotation: { y: "+=30" },
+      repeat: -1,
+      ease: "linear",
+    });
+
+    viewerRef.current = viewer;
+  } catch (error) {
+    console.error('Error setting up viewer:', error);
+  }
+}, [scene]);
+  
   useEffect(() => {
     setupViewer();
     Aos.init();
