@@ -108,6 +108,7 @@ const WebgiViewer = () => {
           <canvas id="webgi-canvas" ref={canvasRef} />
         ) : (
           <>
+        )}
             <img src={logoglow} alt="logo glowing" />
             <p> Interact with your hoodie <i className="fa-regular fa-hand"></i></p>
             <div className="btn-container">
@@ -116,7 +117,7 @@ const WebgiViewer = () => {
               </button>
             </div>
           </>
-        )}
+       
       </div>
       <div className="product-style">
         <div className="product-head">
