@@ -105,7 +105,9 @@ const WebgiViewer = () => {
     <div className="product-card" id="product" data-aos="zoom-in" data-aos-duration="3000">
       <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
         {activeWebGi ? (
+      <div>
           <canvas id="webgi-canvas" ref={canvasRef} />
+      </div>
         ) : (
           <>
         )}
