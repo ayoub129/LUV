@@ -4,6 +4,7 @@ import {
   AssetManagerPlugin,
   addBasePlugins,
   CanvasSnipperPlugin,
+  DracoLoaderPlugin 
 } from "webgi";
 import gsap from "gsap";
 import PayPalButton from "./PaypalButton";
@@ -60,37 +61,50 @@ const WebgiViewer = () => {
   };
 
   const setupViewer = useCallback(async () => {
-  try {
-    setLoading(true); // Set loading to true when starting to set up the viewer
-    if (viewerRef.current) {
-      viewerRef.current.dispose();
+    try {
+      setLoading(true);
+
+      if (viewerRef.current) {
+        viewerRef.current.dispose();
+      }
+
+      const viewer = new ViewerApp({
+        canvas: canvasRef.current,
+      });
+
+      const manager = await viewer.addPlugin(AssetManagerPlugin);
+      await addBasePlugins(viewer);
+
+      // Add DracoLoaderPlugin to enable Draco compression
+      const dracoLoader = await viewer.addPlugin(DracoLoaderPlugin, {
+        decoderPath: "https://cdn.jsdelivr.net/npm/draco-web-decoder@1.0.0/dist/index.min.js", // Replace with the actual path
+      });
+
+      await viewer.addPlugin(CanvasSnipperPlugin);
+      viewer.renderer.refreshPipeline();
+
+      // Use Draco compression by specifying draco compression options
+      await manager.addFromPath(scene, {
+        draco: {
+          decoder: dracoLoader.decoder,
+        },
+      });
+
+      gsap.to(viewer.cameraController, {
+        duration: 5,
+        rotation: { y: "+=30" },
+        repeat: -1,
+        ease: "linear",
+      });
+
+      viewerRef.current = viewer;
+      setLoading(false);
+    } catch (error) {
+      console.error('Error setting up viewer:', error);
+      setLoading(false);
     }
+  }, [scene]);
 
-    const viewer = new ViewerApp({
-      canvas: canvasRef.current,
-    });
-
-    const manager = await viewer.addPlugin(AssetManagerPlugin);
-    await addBasePlugins(viewer);
-    await viewer.addPlugin(CanvasSnipperPlugin);
-    viewer.renderer.refreshPipeline();
-
-    await manager.addFromPath(scene);
-
-    gsap.to(viewer.cameraController, {
-      duration: 5,
-      rotation: { y: "+=30" },
-      repeat: -1,
-      ease: "linear",
-    });
-
-    viewerRef.current = viewer;
-    setLoading(false); // Set loading to false once the viewer is set up
-  } catch (error) {
-    console.error('Error setting up viewer:', error);
-    setLoading(false); // Set loading to false in case of an error
-  }
-}, [scene]);
   
   useEffect(() => {
     setupViewer();
