@@ -7,8 +7,6 @@ import {
 } from "webgi";
 import gsap from "gsap";
 import PayPalButton from "./PaypalButton";
-import Aos from "aos";
-import "aos/dist/aos.css";
 import WhiteGlowLogo from "../assets/images/white-glow.png";
 import BlackGlowLogo from "../assets/images/black-glow.png";
 
@@ -21,6 +19,8 @@ const WebgiViewer = () => {
   const [activeWebGi, setActiveWebGi] = useState(false);
   const canvasRef = useRef(null);
   const viewerRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+
 
   const showGlowedLogo = () => {
     setActiveWebGi(true);
@@ -61,6 +61,7 @@ const WebgiViewer = () => {
 
   const setupViewer = useCallback(async () => {
   try {
+    setLoading(true); // Set loading to true when starting to set up the viewer
     if (viewerRef.current) {
       viewerRef.current.dispose();
     }
@@ -84,14 +85,15 @@ const WebgiViewer = () => {
     });
 
     viewerRef.current = viewer;
+    setLoading(false); // Set loading to false once the viewer is set up
   } catch (error) {
     console.error('Error setting up viewer:', error);
+    setLoading(false); // Set loading to false in case of an error
   }
 }, [scene]);
   
   useEffect(() => {
     setupViewer();
-    Aos.init();
 
     // Cleanup function when the component is unmounted or when scene changes
     return () => {
@@ -102,18 +104,24 @@ const WebgiViewer = () => {
   }, [scene, setupViewer]);
 
   return (
-    <div className="product-card" id="product" data-aos="zoom-in" data-aos-duration="3000">
-      <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
-            <div>
+    <div className="product-card" id="product" >
+    <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
+            {loading ? (
+              <div>
+                <p>Loading Your Hoodie...</p>
+              </div>
+            ) : (
+              <div>
                 <canvas id="webgi-canvas" ref={canvasRef} />
-            </div>
-            <img src={logoglow} alt="logo glowing" />
-            <p> Interact with your hoodie <i className="fa-regular fa-hand"></i></p>
-            <div className="btn-container">
-              <button onClick={showGlowedLogo} className="btn">
-                See It In Dark
-              </button>
-            </div>
+                <img src={logoglow} alt="logo glowing" />
+                <p> Interact with your hoodie <i className="fa-regular fa-hand"></i></p>
+                <div className="btn-container">
+                  <button onClick={showGlowedLogo} className="btn">
+                    See It In Dark
+                  </button>
+                </div>
+              </div>
+            )}
       </div>
       <div className="product-style">
         <div className="product-head">
