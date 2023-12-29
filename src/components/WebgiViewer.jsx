@@ -104,13 +104,9 @@ const WebgiViewer = () => {
   return (
     <div className="product-card" id="product" data-aos="zoom-in" data-aos-duration="3000">
       <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
-        {activeWebGi ? (
-      <div>
-          <canvas id="webgi-canvas" ref={canvasRef} />
-      </div>
-        ) : (
-          <>
-        )}
+            <div>
+                <canvas id="webgi-canvas" ref={canvasRef} />
+            </div>
             <img src={logoglow} alt="logo glowing" />
             <p> Interact with your hoodie <i className="fa-regular fa-hand"></i></p>
             <div className="btn-container">
@@ -118,8 +114,6 @@ const WebgiViewer = () => {
                 See It In Dark
               </button>
             </div>
-          </>
-       
       </div>
       <div className="product-style">
         <div className="product-head">
