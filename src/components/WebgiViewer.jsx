@@ -94,14 +94,17 @@ const WebgiViewer = () => {
   
   useEffect(() => {
     setupViewer();
+  }, [setupViewer]);
 
+  useEffect(() => {
     // Cleanup function when the component is unmounted or when scene changes
     return () => {
       if (viewerRef.current) {
         viewerRef.current.dispose();
       }
     };
-  }, [scene, setupViewer]);
+  }, [scene]);
+
 
   return (
     <div className="product-card" id="product" >
