@@ -62,7 +62,7 @@ const WebgiViewer = () => {
   const setupViewer = useCallback(async () => {
   try {
     if (viewerRef.current) {
-      console.log(viewerRef.current)
+      viewerRef.current.dispose();
     }
 
     const viewer = new ViewerApp({
