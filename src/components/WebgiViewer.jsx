@@ -68,42 +68,31 @@ const WebgiViewer = () => {
         viewerRef.current.dispose();
       }
 
-      const viewer = new ViewerApp({
-        canvas: canvasRef.current,
-      });
+    const viewer = new ViewerApp({
+      canvas: canvasRef.current,
+    });
 
-      const manager = await viewer.addPlugin(AssetManagerPlugin);
-      await addBasePlugins(viewer);
+    const manager = await viewer.addPlugin(AssetManagerPlugin);
+    await addBasePlugins(viewer);
+    await viewer.addPlugin(CanvasSnipperPlugin);
+    viewer.renderer.refreshPipeline();
 
-      // Add DracoLoaderPlugin to enable Draco compression
-      const dracoLoader = await viewer.addPlugin(DracoLoaderPlugin, {
-        decoderPath: "https://cdn.jsdelivr.net/npm/draco-web-decoder@1.0.0/dist/index.min.js", // Replace with the actual path
-      });
+    await manager.addFromPath(scene);
 
-      await viewer.addPlugin(CanvasSnipperPlugin);
-      viewer.renderer.refreshPipeline();
+    gsap.to(viewer.cameraController, {
+      duration: 5,
+      rotation: { y: "+=30" },
+      repeat: -1,
+      ease: "linear",
+    });
 
-      // Use Draco compression by specifying draco compression options
-      await manager.addFromPath(scene, {
-        draco: {
-          decoder: dracoLoader.decoder,
-        },
-      });
-
-      gsap.to(viewer.cameraController, {
-        duration: 5,
-        rotation: { y: "+=30" },
-        repeat: -1,
-        ease: "linear",
-      });
-
-      viewerRef.current = viewer;
-      setLoading(false);
-    } catch (error) {
-      console.error('Error setting up viewer:', error);
-      setLoading(false);
-    }
-  }, [scene]);
+    viewerRef.current = viewer;
+    setLoading(false); // Set loading to false once the viewer is set up
+  } catch (error) {
+    console.error('Error setting up viewer:', error);
+    setLoading(false); // Set loading to false in case of an error
+  }
+}, [scene]);
 
   
   useEffect(() => {
