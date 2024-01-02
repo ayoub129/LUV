@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect, useState } from "react";
+import React, { useRef, useCallback, useEffect, useState  } from "react";
 import {
   ViewerApp,
   AssetManagerPlugin,
@@ -75,6 +75,9 @@ const WebgiViewer = () => {
         canvas: canvasRef.current,
         canvasSize: canvasSize || { width: window.innerWidth, height: window.innerHeight }, // Set the canvas size
         antialias: isMobile ? false : true,  // Adjust antialiasing based on the device
+        shadows: isMobile ? false : true,
+        precision: isMobile ? 'lowp' : 'mediump', // Adjust precision based on the device
+        gammaOutput: isMobile ? false : true,
       });
   
       const manager = await viewer.addPlugin(AssetManagerPlugin);
