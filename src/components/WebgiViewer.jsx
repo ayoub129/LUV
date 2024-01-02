@@ -4,12 +4,13 @@ import {
   AssetManagerPlugin,
   addBasePlugins,
   CanvasSnipperPlugin,
-  DracoLoaderPlugin 
 } from "webgi";
 import gsap from "gsap";
 import PayPalButton from "./PaypalButton";
 import WhiteGlowLogo from "../assets/images/white-glow.png";
 import BlackGlowLogo from "../assets/images/black-glow.png";
+import { isMobile } from 'react-device-detect';
+
 
 const WebgiViewer = () => {
   const [scene, setScene] = useState("wine.glb");
@@ -32,10 +33,12 @@ const WebgiViewer = () => {
     }
   };
 
-  const updateScene = (scene) => {
+  const updateScene = async (scene) => {
     setActiveWebGi(false);
     setScene(scene);
+    await setupViewer(scene); // Trigger dynamic loading for the new scene
   };
+  
 
   const handlePaymentSuccess = async (details) => {
     const sceneNameWithoutExtension = scene.split(".")[0];
@@ -60,44 +63,69 @@ const WebgiViewer = () => {
     setError("Payment Error: Your payment was canceled, Please Try Again Later.");
   };
 
-  const setupViewer = useCallback(async () => {
+  const setupViewer = useCallback(async (sceneToLoad, canvasSize) => {
     try {
       setLoading(true);
-
+  
       if (viewerRef.current) {
         viewerRef.current.dispose();
       }
+  
+      const viewer = new ViewerApp({
+        canvas: canvasRef.current,
+        canvasSize: canvasSize || { width: window.innerWidth, height: window.innerHeight }, // Set the canvas size
+        antialias: isMobile ? false : true,  // Adjust antialiasing based on the device
+      });
+  
+      const manager = await viewer.addPlugin(AssetManagerPlugin);
+      await addBasePlugins(viewer);
+      await viewer.addPlugin(CanvasSnipperPlugin);
+      viewer.renderer.refreshPipeline();
+  
+      // Use dynamic loading if a specific scene is provided
+      if (sceneToLoad) {
+        await manager.addFromPath(sceneToLoad);
+      }
+  
+      gsap.to(viewer.cameraController, {
+        duration: 5,
+        rotation: { y: "+=30" },
+        repeat: -1,
+        ease: "linear",
+      });
+  
+      viewerRef.current = viewer;
+      setLoading(false);
+    } catch (error) {
+      console.error('Error setting up viewer:', error);
+      setLoading(false);
+    }
+  }, []);
 
-    const viewer = new ViewerApp({
-      canvas: canvasRef.current,
-    });
-
-    const manager = await viewer.addPlugin(AssetManagerPlugin);
-    await addBasePlugins(viewer);
-    await viewer.addPlugin(CanvasSnipperPlugin);
-    viewer.renderer.refreshPipeline();
-
-    await manager.addFromPath(scene);
-
-    gsap.to(viewer.cameraController, {
-      duration: 5,
-      rotation: { y: "+=30" },
-      repeat: -1,
-      ease: "linear",
-    });
-
-    viewerRef.current = viewer;
-    setLoading(false); // Set loading to false once the viewer is set up
-  } catch (error) {
-    console.error('Error setting up viewer:', error);
-    setLoading(false); // Set loading to false in case of an error
-  }
-}, [scene]);
+  useEffect(() => {
+    const handleResize = () => {
+      const newSize = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+  
+      // Adjust canvas size when the window is resized
+      setupViewer(scene, newSize);
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [scene, setupViewer]);
+  
 
   
-  useEffect(() => {
-    setupViewer();
-  }, [setupViewer]);
+useEffect(() => {
+  setupViewer(scene, { width: 800, height: 600 }); // Set initial canvas size
+}, [scene, setupViewer]);
+
 
   useEffect(() => {
     // Cleanup function when the component is unmounted or when scene changes
