@@ -1,15 +1,12 @@
-import React, { useRef, useCallback, useEffect, useState  } from "react";
-import {
-  ViewerApp,
-  AssetManagerPlugin,
-  addBasePlugins,
-  CanvasSnipperPlugin,
-} from "webgi";
+import React, { useRef, useCallback, useEffect, useState, lazy, Suspense } from "react";
+import { isMobile } from 'react-device-detect';
+import { ViewerApp, AssetManagerPlugin, addBasePlugins, CanvasSnipperPlugin } from "webgi";
 import gsap from "gsap";
 import PayPalButton from "./PaypalButton";
 import WhiteGlowLogo from "../assets/images/white-glow.png";
 import BlackGlowLogo from "../assets/images/black-glow.png";
-import { isMobile } from 'react-device-detect';
+
+const LazyModelLoader = lazy(() => import('./LazyModelLoader'));
 
 
 const WebgiViewer = () => {
@@ -36,7 +33,6 @@ const WebgiViewer = () => {
   const updateScene = async (scene) => {
     setActiveWebGi(false);
     setScene(scene);
-    await setupViewer(scene); // Trigger dynamic loading for the new scene
   };
   
 
@@ -142,23 +138,29 @@ useEffect(() => {
 
   return (
     <div className="product-card" id="product" >
-     <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
-                <canvas id="webgi-canvas" ref={canvasRef} />
-          <img src={logoglow} alt="logo glowing" />
-       {
-         loading ?  (
-           <p> Loading Your Hoodie ... </p>
-           ): ( 
-           <p> Interact with your hoodie <i className="fa-regular fa-hand"></i></p> 
-           )
-       }
-         
-          <div className="btn-container">
-              <button onClick={showGlowedLogo} className="btn">
-                 See It In Dark
-              </button>
-          </div>
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyModelLoader
+                scene={scene}
+                canvasRef={canvasRef}
+                viewerRef={viewerRef}
+                loading={loading}
+                setLoading={setLoading}
+                updateScene={updateScene}
+                setupViewer={setupViewer}
+              />
+            </Suspense>
+
+      <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
+        <canvas id="webgi-canvas" ref={canvasRef} />
+        <img src={logoglow} alt="logo glowing" />
+        {loading ? <p>Loading Your Hoodie ... </p> : <p>Interact with your hoodie <i className="fa-regular fa-hand"></i></p>}
+        <div className="btn-container">
+          <button onClick={showGlowedLogo} className="btn">
+            See It In Dark
+          </button>
+        </div>
       </div>
+     
       <div className="product-style">
         <div className="product-head">
           <h3>Luv Hoodie</h3>
