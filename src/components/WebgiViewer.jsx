@@ -20,23 +20,7 @@ const WebgiViewer = () => {
   const viewerRef = useRef(null);
   const [loading, setLoading] = useState(true);
 
-
-  const showGlowedLogo = () => {
-    setActiveWebGi(true);
-    if (scene === "abrico.glb") {
-      setLogoglow(BlackGlowLogo);
-    } else {
-      setLogoglow(WhiteGlowLogo);
-    }
-  };
-
-  const updateScene = async (scene) => {
-    setActiveWebGi(false);
-    setScene(scene);
-  };
-  
-
-  const handlePaymentSuccess = async (details) => {
+    const handlePaymentSuccess = async (details) => {
     const sceneNameWithoutExtension = scene.split(".")[0];
 
     try {
@@ -58,6 +42,18 @@ const WebgiViewer = () => {
   const handlePaymentError = () => {
     setError("Payment Error: Your payment was canceled, Please Try Again Later.");
   };
+
+
+  const showGlowedLogo = useCallback(() => {
+    setActiveWebGi(true);
+    setLogoglow(scene === "abrico.glb" ? BlackGlowLogo : WhiteGlowLogo);
+  }, [scene]);
+
+  const updateScene = async (scene) => {
+    setActiveWebGi(false);
+    setScene(scene);
+  };
+  
 
   const setupViewer = useCallback(async (sceneToLoad, canvasSize) => {
     try {
@@ -86,13 +82,6 @@ const WebgiViewer = () => {
         await manager.addFromPath(sceneToLoad);
       }
   
-      gsap.to(viewer.cameraController, {
-        duration: 5,
-        rotation: { y: "+=30" },
-        repeat: -1,
-        ease: "linear",
-      });
-  
       viewerRef.current = viewer;
       setLoading(false);
     } catch (error) {
@@ -101,6 +90,19 @@ const WebgiViewer = () => {
     }
   }, []);
 
+       useEffect(() => {
+          import("gsap").then((gsap) => {
+            // Use gsap here
+            gsap.to(viewerRef.current.cameraController, {
+              duration: 5,
+              rotation: { y: "+=30" },
+              repeat: -1,
+              ease: "linear",
+            });
+          });
+        }, []); // Dependency array ensures it's only loaded once
+
+  
   useEffect(() => {
     const handleResize = () => {
       const newSize = {
@@ -121,13 +123,11 @@ const WebgiViewer = () => {
   
 
   
-useEffect(() => {
-  setupViewer(scene, { width: 800, height: 600 }); // Set initial canvas size
-}, [scene, setupViewer]);
-
+  useEffect(() => {
+    setupViewer(scene, { width: 800, height: 600 }); // Set initial canvas size
+  }, [scene, setupViewer]);
 
   useEffect(() => {
-    // Cleanup function when the component is unmounted or when scene changes
     return () => {
       if (viewerRef.current) {
         viewerRef.current.dispose();
