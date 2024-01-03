@@ -46,56 +46,37 @@ const WebgiViewer = () => {
     setLogoglow(scene === "abrico.glb" ? BlackGlowLogo : WhiteGlowLogo);
   }, [scene]);
 
-const updateScene = async (selectedColor) => {
-  setActiveWebGi(false);
-  setScene(scene);
-  setupViewer(selectedColor);
-};
+  const updateScene = async (scene) => {
+    setActiveWebGi(false);
+    setScene(scene);
+  };
   
 
-const setupViewer = useCallback(async (selectedColor) => {
-  try {
-    setLoading(true);
-
-    if (viewerRef.current) {
-      viewerRef.current.dispose();
-    }
-
+  const setupViewer = useCallback(async () => {
+    try {
+      setLoading(true);
+      if (viewerRef.current) {
+        viewerRef.current.dispose();
+      }
     const viewer = new ViewerApp({
       canvas: canvasRef.current,
     });
-
     const manager = await viewer.addPlugin(AssetManagerPlugin);
     await addBasePlugins(viewer);
     await viewer.addPlugin(CanvasSnipperPlugin);
     viewer.renderer.refreshPipeline();
-
-    // Load the 3D model
     await manager.addFromPath(scene);
-
-    // Change color if selectedColor is provided
-    if (selectedColor) {
-      viewer.traverse((child) => {
-        if (child.isMesh && child.material) {
-          // Assuming the material has a color property
-          child.material.color.set(selectedColor);
-        }
-      });
-    }
-
-    // Set up animation
     gsap.to(viewer.cameraController, {
       duration: 5,
       rotation: { y: "+=30" },
       repeat: -1,
       ease: "linear",
     });
-
     viewerRef.current = viewer;
-    setLoading(false);
+    setLoading(false); // Set loading to false once the viewer is set up
   } catch (error) {
     console.error('Error setting up viewer:', error);
-    setLoading(false);
+    setLoading(false); // Set loading to false in case of an error
   }
 }, [scene]);
   
@@ -134,9 +115,9 @@ const setupViewer = useCallback(async (selectedColor) => {
 
         <p className="variant">COLOR</p>
         <ul className="colors">
-          <li onClick={() => updateScene("black")} className={`black ${scene === "black.glb" ? 'active' : ''}`}></li>
-          <li onClick={() => updateScene("white")} className={`white ${scene === "white.glb" ? 'active' : ''}`}></li>
-          <li onClick={() => updateScene("red")} className={`red ${scene === "red.glb" ? 'active' : ''}`}></li>
+          <li onClick={() => updateScene("black.glb")} className={`black ${scene === "black.glb" ? 'active' : ''}`}></li>
+          <li onClick={() => updateScene("abrico.glb")} className={`white ${scene === "abrico.glb" ? 'active' : ''}`}></li>
+          <li onClick={() => updateScene("wine.glb")} className={`red ${scene === "wine.glb" ? 'active' : ''}`}></li>
         </ul>
         <p className="variant"> SIZE</p>
         <ul className="sizes">
