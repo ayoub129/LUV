@@ -82,6 +82,14 @@ const WebgiViewer = () => {
         await manager.addFromPath(sceneToLoad);
       }
 
+
+     gsap.to(viewer.cameraController, {
+        duration: 5,
+        rotation: { y: "+=30" },
+        repeat: -1,
+        ease: "linear",
+      });
+
       viewerRef.current = viewer;
       setLoading(false);
     } catch (error) {
@@ -89,21 +97,6 @@ const WebgiViewer = () => {
       setLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    console.log('Loading gsap...');
-    import("gsap").then((gsap) => {
-      console.log('gsap loaded. Setting up camera animation...');
-      gsap.to(viewerRef.current.cameraController, {
-        duration: 5,
-        rotation: { y: "+=30" },
-        repeat: -1,
-        ease: "linear",
-      });
-    }).catch((error) => {
-      console.error('Error loading gsap:', error);
-    });
-  }, [viewerRef]);
 
   useEffect(() => {
     console.log('Setting up initial viewer...');
