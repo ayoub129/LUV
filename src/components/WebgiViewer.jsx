@@ -58,30 +58,30 @@ const WebgiViewer = () => {
   const setupViewer = useCallback(async (sceneToLoad, canvasSize) => {
     try {
       setLoading(true);
-  
+
       if (viewerRef.current) {
         viewerRef.current.dispose();
       }
-  
+
       const viewer = new ViewerApp({
         canvas: canvasRef.current,
-        canvasSize: canvasSize || { width: window.innerWidth, height: window.innerHeight }, // Set the canvas size
-        antialias: isMobile ? false : true,  // Adjust antialiasing based on the device
+        canvasSize: canvasSize || { width: window.innerWidth, height: window.innerHeight },
+        antialias: isMobile ? false : true,
         shadows: isMobile ? false : true,
-        precision: isMobile ? 'lowp' : 'mediump', // Adjust precision based on the device
+        precision: isMobile ? 'lowp' : 'mediump',
         gammaOutput: isMobile ? false : true,
       });
-  
+
       const manager = await viewer.addPlugin(AssetManagerPlugin);
       await addBasePlugins(viewer);
       await viewer.addPlugin(CanvasSnipperPlugin);
       viewer.renderer.refreshPipeline();
-  
+
       // Use dynamic loading if a specific scene is provided
       if (sceneToLoad) {
         await manager.addFromPath(sceneToLoad);
       }
-  
+
       viewerRef.current = viewer;
       setLoading(false);
     } catch (error) {
@@ -90,18 +90,25 @@ const WebgiViewer = () => {
     }
   }, []);
 
-       useEffect(() => {
-          import("gsap").then((gsap) => {
-            // Use gsap here
-            gsap.to(viewerRef.current.cameraController, {
-              duration: 5,
-              rotation: { y: "+=30" },
-              repeat: -1,
-              ease: "linear",
-            });
-          });
-        }, []); // Dependency array ensures it's only loaded once
+  useEffect(() => {
+    console.log('Loading gsap...');
+    import("gsap").then((gsap) => {
+      console.log('gsap loaded. Setting up camera animation...');
+      gsap.to(viewerRef.current.cameraController, {
+        duration: 5,
+        rotation: { y: "+=30" },
+        repeat: -1,
+        ease: "linear",
+      });
+    }).catch((error) => {
+      console.error('Error loading gsap:', error);
+    });
+  }, [viewerRef]);
 
+  useEffect(() => {
+    console.log('Setting up initial viewer...');
+    setupViewer(scene, { width: 800, height: 600 }); // Set initial canvas size
+  }, [scene, setupViewer]);
   
   useEffect(() => {
     const handleResize = () => {
@@ -121,12 +128,6 @@ const WebgiViewer = () => {
     };
   }, [scene, setupViewer]);
   
-
-  
-  useEffect(() => {
-    setupViewer(scene, { width: 800, height: 600 }); // Set initial canvas size
-  }, [scene, setupViewer]);
-
   useEffect(() => {
     return () => {
       if (viewerRef.current) {
