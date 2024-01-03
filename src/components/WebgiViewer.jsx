@@ -82,6 +82,7 @@ const WebgiViewer = () => {
         await manager.addFromPath(sceneToLoad);
       }
 
+      viewerRef.current = viewer;
 
      gsap.to(viewer.cameraController, {
         duration: 5,
@@ -90,7 +91,6 @@ const WebgiViewer = () => {
         ease: "linear",
       });
 
-      viewerRef.current = viewer;
       setLoading(false);
     } catch (error) {
       console.error('Error setting up viewer:', error);
