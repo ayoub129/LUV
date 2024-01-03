@@ -1,13 +1,10 @@
-import React, { useRef, useCallback, useEffect, useState, lazy, Suspense } from "react";
+import React, { useRef, useCallback, useEffect, useState  } from "react";
 import { isMobile } from 'react-device-detect';
 import { ViewerApp, AssetManagerPlugin, addBasePlugins, CanvasSnipperPlugin } from "webgi";
 import gsap from "gsap";
 import PayPalButton from "./PaypalButton";
 import WhiteGlowLogo from "../assets/images/white-glow.png";
 import BlackGlowLogo from "../assets/images/black-glow.png";
-
-const LazyModelLoader = lazy(() => import('./LazyModelLoader'));
-
 
 const WebgiViewer = () => {
   const [scene, setScene] = useState("wine.glb");
@@ -55,95 +52,50 @@ const WebgiViewer = () => {
   };
   
 
-  const setupViewer = useCallback(async (sceneToLoad, canvasSize) => {
+  const setupViewer = useCallback(async () => {
     try {
       setLoading(true);
-
       if (viewerRef.current) {
         viewerRef.current.dispose();
       }
-
-      const viewer = new ViewerApp({
-        canvas: canvasRef.current,
-        canvasSize: canvasSize || { width: window.innerWidth, height: window.innerHeight },
-        antialias: isMobile ? false : true,
-        shadows: isMobile ? false : true,
-        precision: isMobile ? 'lowp' : 'mediump',
-        gammaOutput: isMobile ? false : true,
-      });
-
-      const manager = await viewer.addPlugin(AssetManagerPlugin);
-      await addBasePlugins(viewer);
-      await viewer.addPlugin(CanvasSnipperPlugin);
-      viewer.renderer.refreshPipeline();
-
-      // Use dynamic loading if a specific scene is provided
-      if (sceneToLoad) {
-        await manager.addFromPath(sceneToLoad);
-      }
-
-      viewerRef.current = viewer;
-
-     gsap.to(viewer.cameraController, {
-        duration: 5,
-        rotation: { y: "+=30" },
-        repeat: -1,
-        ease: "linear",
-      });
-
-      setLoading(false);
-    } catch (error) {
-      console.error('Error setting up viewer:', error);
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log('Setting up initial viewer...');
-    setupViewer(scene, { width: 800, height: 600 }); // Set initial canvas size
-  }, [scene, setupViewer]);
+    const viewer = new ViewerApp({
+      canvas: canvasRef.current,
+    });
+    const manager = await viewer.addPlugin(AssetManagerPlugin);
+    await addBasePlugins(viewer);
+    await viewer.addPlugin(CanvasSnipperPlugin);
+    viewer.renderer.refreshPipeline();
+    await manager.addFromPath(scene);
+    gsap.to(viewer.cameraController, {
+      duration: 5,
+      rotation: { y: "+=30" },
+      repeat: -1,
+      ease: "linear",
+    });
+    viewerRef.current = viewer;
+    setLoading(false); // Set loading to false once the viewer is set up
+  } catch (error) {
+    console.error('Error setting up viewer:', error);
+    setLoading(false); // Set loading to false in case of an error
+  }
+}, [scene]);
   
   useEffect(() => {
-    const handleResize = () => {
-      const newSize = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-  
-      // Adjust canvas size when the window is resized
-      setupViewer(scene, newSize);
-    };
-  
-    window.addEventListener('resize', handleResize);
-  
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [scene, setupViewer]);
+    setupViewer();
+  }, [setupViewer]);
   
   useEffect(() => {
+    // Cleanup function when the component is unmounted or when scene changes
     return () => {
       if (viewerRef.current) {
         viewerRef.current.dispose();
       }
     };
   }, [scene]);
-
+  
 
   return (
     <div className="product-card" id="product" >
-            <Suspense fallback={<div>Loading...</div>}>
-              <LazyModelLoader
-                scene={scene}
-                canvasRef={canvasRef}
-                viewerRef={viewerRef}
-                loading={loading}
-                setLoading={setLoading}
-                updateScene={updateScene}
-                setupViewer={setupViewer}
-              />
-            </Suspense>
-
       <div id="webgi-canvas-container" className={`${activeWebGi ? 'active' : ''}`}>
         <canvas id="webgi-canvas" ref={canvasRef} />
         <img src={logoglow} alt="logo glowing" />
