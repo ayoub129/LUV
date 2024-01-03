@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 const Card = ({ Style, text , logo , gl }) => {
   const [activeImage, setActiveImage] = useState("glowing");
@@ -35,4 +35,4 @@ const Card = ({ Style, text , logo , gl }) => {
   );
 };
 
-export default Card;
+export default memo(Card);
