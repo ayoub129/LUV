@@ -2,6 +2,8 @@ import React, { useRef, useCallback, useEffect, useState  } from "react";
 import { isMobile } from 'react-device-detect';
 import { ViewerApp, AssetManagerPlugin, addBasePlugins, CanvasSnipperPlugin } from "webgi";
 import gsap from "gsap";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';  // Import DRACOLoader
 import PayPalButton from "./PaypalButton";
 import WhiteGlowLogo from "../assets/images/white-glow.png";
 import BlackGlowLogo from "../assets/images/black-glow.png";
@@ -52,26 +54,38 @@ const WebgiViewer = () => {
   };
   
 
-  const setupViewer = useCallback(async () => {
-    try {
-      setLoading(true);
-      if (viewerRef.current) {
-        viewerRef.current.dispose();
-      }
+const setupViewer = useCallback(async () => {
+  try {
+    setLoading(true);
+    if (viewerRef.current) {
+      viewerRef.current.dispose();
+    }
+
     const viewer = new ViewerApp({
       canvas: canvasRef.current,
     });
+    
     const manager = await viewer.addPlugin(AssetManagerPlugin);
     await addBasePlugins(viewer);
     await viewer.addPlugin(CanvasSnipperPlugin);
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/'); // Specify the path to the Draco decoder
+
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.setDRACOLoader(dracoLoader);
+
     viewer.renderer.refreshPipeline();
-    await manager.addFromPath(scene);
-    gsap.to(viewer.cameraController, {
-      duration: 5,
-      rotation: { y: "+=30" },
-      repeat: -1,
-      ease: "linear",
-    });
+
+    await manager.addFromPath(scene, gltfLoader); // Pass the GLTFLoader to AssetManagerPlugin
+
+    // gsap.to(viewer.cameraController, {
+    //   duration: 5,
+    //   rotation: { y: "+=30" },
+    //   repeat: -1,
+    //   ease: "linear",
+    // });
+
     viewerRef.current = viewer;
     setLoading(false); // Set loading to false once the viewer is set up
   } catch (error) {
