@@ -79,12 +79,12 @@ const setupViewer = useCallback(async () => {
 
     await manager.addFromPath(scene, gltfLoader); // Pass the GLTFLoader to AssetManagerPlugin
 
-    // gsap.to(viewer.cameraController, {
-    //   duration: 5,
-    //   rotation: { y: "+=30" },
-    //   repeat: -1,
-    //   ease: "linear",
-    // });
+     gsap.to(viewer.cameraController, {
+       duration: 5,
+       rotation: { y: "+=30" },
+       repeat: -1,
+       ease: "linear",
+     });
 
     viewerRef.current = viewer;
     setLoading(false); // Set loading to false once the viewer is set up
