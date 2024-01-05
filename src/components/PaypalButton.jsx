@@ -16,7 +16,7 @@ const PayPalButton = ({ onSuccess, onError }) => {
     });
   };
 
-  const onApprove = (data, actions) => {
+  const onApprove = ( actions) => {
     return actions.order.capture().then((details) => {
       onSuccess(details);
     });
