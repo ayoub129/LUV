@@ -7,7 +7,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route index element={<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
+        <Route index element={<Home />} />
       </Routes>
     </Router>
   );
