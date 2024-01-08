@@ -1,7 +1,6 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-const Home = lazy(() => import('./screens/Home'));
+import Home from './screens/Home';
 
 function App() {
   return (
