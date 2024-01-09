@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import WebgiViewer from "./WebgiViewer";
 
-const About = ({ setLoading }) => {
+const About = () => {
 
   return (
     <div className="about-container">
@@ -16,7 +16,7 @@ const About = ({ setLoading }) => {
       <div
         className="about-image"
       >
-        <WebgiViewer setLoading={setLoading} />
+        <WebgiViewer />
       </div>
     </div>
   );
