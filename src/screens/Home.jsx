@@ -9,6 +9,10 @@ const PAYPAL_CLIENT_ID = import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID;
 const Home = () => {
   const [loading , setLoading] = useState(false)
   return (
+  <>
+    {loading ? 
+      <div className="load">Loading Your Hoodie...</div>
+      :   
     <PayPalScriptProvider options={{ "client-id": PAYPAL_CLIENT_ID }}>
         <div className="App">
             <Jumbotron />
@@ -16,6 +20,8 @@ const Home = () => {
             <Footer />
         </div>
      </PayPalScriptProvider>
+    }
+  </>
   )
 }
 
