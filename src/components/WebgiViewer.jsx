@@ -6,7 +6,7 @@ import { Canvas, useLoader } from "react-three-fiber";
 import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { TextureLoader } from "three";
 
-const WebgiViewer = ({ setLoading }) => {
+const WebgiViewer = () => {
   const [scene, setScene] = useState(null);
   const [size, setSize] = useState("S");
   const [error, setError] = useState("");
@@ -116,9 +116,7 @@ const WebgiViewer = ({ setLoading }) => {
   };
   // console.log(materials?.Black);
   const updateScene = async (scene) => {
-    setLoading(true)
     setScene(myTextures?.[scene]);
-    setLoading(false)
   };
 
   if (materials?.Black?.map) {
