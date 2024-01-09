@@ -10,7 +10,7 @@ const Home = () => {
     <PayPalScriptProvider options={{ "client-id": PAYPAL_CLIENT_ID }}>
         <div className="App">
             <Jumbotron />
-            <About setLoading={setLoading} />
+            <About  />
             <Footer />
         </div>
      </PayPalScriptProvider>
