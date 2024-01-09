@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Loading from "assets/loading.gif";
-
+import Loading from "assets/images/loading.gif";
 const Home = lazy(() => import('./screens/Home'));
 
 function App() {
