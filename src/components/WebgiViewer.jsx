@@ -125,6 +125,8 @@ const WebgiViewer = () => {
     materials.Black.map.colorSpace = "srgb";
     materials.Black.map.flipY = false;
   }
+
+  console.log(scene)
   return (
     <div className="product-card" id="product">
       <div
