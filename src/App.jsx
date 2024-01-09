@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Loading from "assets/loading.gif";
+
 const Home = lazy(() => import('./screens/Home'));
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
         <Route
           index
           element={
-            <Suspense fallback={<div style={{ width: '100%', height: '100vh', display: 'flex'; alignItems: 'center'; justifyContent: 'center'; position: 'relative', backgroundColor: 'black' }}>
+            <Suspense fallback={<div style={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundColor: 'black' }}>
                 <img src={Loading} alt="loading" />
             </div>}>
               <Home />
