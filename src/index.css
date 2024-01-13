@@ -560,6 +560,10 @@ body::-webkit-scrollbar-thumb {
 }
 
 
+.abricot {
+  width: 120px !important;
+}
+
 @media (max-width: 900px) {
   .card-container {
     flex-direction: column;
