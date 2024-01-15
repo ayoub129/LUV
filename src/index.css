@@ -55,7 +55,7 @@ body::-webkit-scrollbar-thumb {
   background-color: #555;
 }
 
-.abricot {
+.abricot.glowing-img.active {
   width: 120px !important;
 }
 
