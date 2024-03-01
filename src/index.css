@@ -386,6 +386,10 @@ body::-webkit-scrollbar-thumb {
   position: relative;
 }
 
+.product-card #webgi-canvas-container:has(.white_shirt) {
+  background-color: #000000;
+}
+
 
 .product-card #webgi-canvas-container p {
   color: black;
@@ -666,20 +670,58 @@ body::-webkit-scrollbar-thumb {
 }
 
 .history {
+  display: block;
+  width: 85%;
+  margin: 1.5rem auto;
+  text-align: center;
   font-size: 18px;
   letter-spacing: 1px;
 }
 
-.product-card #webgi-canvas-container img {
-  position: absolute;
-  left: 27%;
-  top: 35%;
-  opacity: 0;
-  width: 100px;
+.product-card #webgi-canvas-container img.black {
+  width: 320px;
+}
+
+.product-card #webgi-canvas-container img.white {
+  margin-left: 2rem;
+  width: 280px;
+}
+
+.product-card #webgi-canvas-container img.wine {
+  margin-left: 2.75rem;
+  width: 295px;
+}
+
+.product-card #webgi-canvas-container img.white_shirt {
+  width: 400px;
+}
+
+.product-card #webgi-canvas-container img.black_shirt {
+  width: 400px;
+}
+
+.interact {
+  width: 30%;
+  padding: 50px 50px;
+  height: 450px;
+  margin: 4rem auto;
+  cursor: grab;
+  text-align: center;
+  background-color: #E2E2E2;
+  border-radius: 2rem;
+}
+
+.interact:active {
+  cursor: grabbing;
 }
 
 .product-card #webgi-canvas-container.active img {
   animation: showit 3s ease forwards;
+}
+
+.interact p {
+  color: black;
+  font-weight: bold;
 }
 
 @keyframes showit {
@@ -695,4 +737,28 @@ body::-webkit-scrollbar-thumb {
     left: 0%;
     top: 25%;
   }
+}
+
+.types {
+  display: flex;
+  align-items: center;
+}
+
+.type_btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #111;
+    transition: 0.5s;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.type_btn:hover {
+  background-color: #9bdc28;
+  transition: 0.5s;
 }
