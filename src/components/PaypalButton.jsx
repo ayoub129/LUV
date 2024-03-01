@@ -1,7 +1,7 @@
 import React from "react";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
-const PayPalButton = ({ onSuccess, onError }) => {
+const PayPalButton = ({price , onSuccess, onError }) => {
   const [{ isPending }] = usePayPalScriptReducer();
 
   const createOrder = (data, actions) => {
@@ -9,7 +9,7 @@ const PayPalButton = ({ onSuccess, onError }) => {
       purchase_units: [
         {
           amount: {
-            value: "65.00", 
+            value: price, 
           },
         },
       ],
