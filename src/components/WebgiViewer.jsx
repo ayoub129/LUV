@@ -14,6 +14,7 @@ const WebgiViewer = () => {
   const [success, setSuccess] = useState("");
   const [scene, setScene] = useState(BlackImage);
   const [type, setType] = useState("hoodie");
+  const [cl , setCl] = useState("black")
 
   const handlePaymentSuccess = async (details) => {
     const sceneNameWithoutExtension = scene.split(".")[0];
@@ -44,20 +45,42 @@ const WebgiViewer = () => {
   };
 
   const updateScene = (scene) => {
-    setScene(scene);
+    if(scene == "BlackImage") {
+      setScene(BlackImage)
+      setCl("black")
+    } else if (scene == "ShirtBlack") {
+      setScene(ShirtBlack)
+      setCl("black_shirt")
+    } else if (scene == "WhiteImage") {
+      setScene(WhiteImage)
+      setCl("white")
+    } else if (scene == "ShirtWhite") {
+      setScene(ShirtWhite)
+      setCl("white_shirt")
+    } else {
+      setScene(WineImage);
+      setCl("wine")
+    }
   };
   
   const updateType = (type) => {
     setType(type)
     setScene(type == "hoodie" ? BlackImage : ShirtBlack)
+    if(type == "hoodie") {
+      setCl("black")
+    } else {
+      setCl("black_shirt")
+    }
+
   }
 
   return (
     <div className="product-card" id="product">
       <div id="webgi-canvas-container">
-        <img src={scene} alt="hoodie" className={scene === "/src/assets/images/style-rm-3.png" ? "black card-img" : scene === "/src/assets/images/style-rm-2.png" ? "wine card-img" : scene === "/src/assets/images/style-4.png" ? "white_shirt card-img" : scene === "/src/assets/images/style-5.png" ? "black_shirt card-img" : "white card-img"}/>
+        <img src={scene} alt="hoodie" className={cl === "black" ? "black card-img" : cl === "wine" ? "wine card-img" : cl === "white_shirt" ? "white_shirt card-img" : cl === "black_shirt" ? "black_shirt card-img" : "white card-img"}/>
         {/* logo */}
-         (<img src={scene === "/src/assets/images/style-rm-1.png" ? BlackLogo : WhiteLogo} alt="logo" className={`card-logo  ${scene === "/src/assets/images/style-rm-3.png" ? "logoblack" : scene === "/src/assets/images/style-rm-2.png" ? "logowine" : "logowhite"}`} />) 
+        {type != "shirt" ? (<img src={cl == "white" ? BlackLogo : WhiteLogo} alt="logo" className={`card-logo  ${cl === "black" ? "logoblack" : cl === "wine" ? "logowine" : "logowhite"}`} />) : ""
+        } 
       </div>
 
       <div className="product-style">
@@ -72,10 +95,10 @@ const WebgiViewer = () => {
         </ul>
         <p className="variant">COLOR</p>
         <ul className="colors">
-          <li onClick={() => updateScene(type === "hoodie" ? BlackImage : ShirtBlack)} className="black"></li>
-          <li onClick={() => updateScene(type === "hoodie" ? WhiteImage : ShirtWhite)} className="white"></li>
+          <li onClick={() => updateScene(type === "hoodie" ? "BlackImage" : "ShirtBlack")} className="black"></li>
+          <li onClick={() => updateScene(type === "hoodie" ? "WhiteImage" : "ShirtWhite")} className="white"></li>
           {
-            type === "hoodie" &&   <li onClick={() => updateScene(WineImage)} className="red"></li>
+            type === "hoodie" &&   <li onClick={() => updateScene("WineImage")} className="red"></li>
           }
         </ul>
         <p className="variant"> SIZE</p>
