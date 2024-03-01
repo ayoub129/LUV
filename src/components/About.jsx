@@ -18,6 +18,7 @@ const About = () => {
       >
         <WebgiViewer />
       </div>
+
     </div>
   );
 };
