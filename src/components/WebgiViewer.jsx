@@ -1,18 +1,17 @@
-import React, {  useCallback, useState } from "react";
+import React, { useState } from "react";
 import PayPalButton from "./PaypalButton";
-import WhiteGlowLogo from "../assets/images/white-glow.png";
-import BlackGlowLogo from "../assets/images/black-glow.png";
-import { Canvas, useLoader } from "react-three-fiber";
-import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
-import { TextureLoader } from "three";
+import BlackImage from "../assets/images/style-3.png";
+import WhiteImage from "../assets/images/style-1.png";
+import WineImage from "../assets/images/style-2.png";
+import ShirtWhite from "../assets/images/style-4.png";
+import ShirtBlack from "../assets/images/style-5.png";
 
 const WebgiViewer = () => {
-  const [scene, setScene] = useState(null);
   const [size, setSize] = useState("S");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [logoglow, setLogoglow] = useState(WhiteGlowLogo);
-  const [activeWebGi, setActiveWebGi] = useState(false);
+  const [scene, setScene] = useState(BlackImage);
+  const [type, setType] = useState("hoodie");
 
   const handlePaymentSuccess = async (details) => {
     const sceneNameWithoutExtension = scene.split(".")[0];
@@ -42,156 +41,48 @@ const WebgiViewer = () => {
     );
   };
 
-  // const updateScene = async (scene) => {
-  //   // setActiveWebGi(false);
-  //   // setScene(scene);
-  // };
-
-  // const setupViewer = useCallback(async () => {
-  //   try {
-  //     setLoading(true);
-  //     if (viewerRef.current) {
-  //       viewerRef.current.dispose();
-  //     }
-
-  //     const viewer = new ViewerApp({
-  //       canvas: canvasRef.current,
-  //     });
-
-  //     const manager = await viewer.addPlugin(AssetManagerPlugin);
-  //     await addBasePlugins(viewer);
-  //     await viewer.addPlugin(CanvasSnipperPlugin);
-
-  //     const dracoLoader = new DRACOLoader();
-  //     dracoLoader.setDecoderPath(
-  //       "https://www.gstatic.com/draco/versioned/decoders/1.5.6/"
-  //     ); // Specify the path to the Draco decoder
-
-  //     const gltfLoader = new GLTFLoader();
-  //     gltfLoader.setDRACOLoader(dracoLoader);
-
-  //     viewer.renderer.refreshPipeline();
-
-  //     await manager.addFromPath("wine.glb", gltfLoader); // Pass the GLTFLoader to AssetManagerPlugin
-
-  //     gsap.to(viewer.cameraController, {
-  //       duration: 5,
-  //       rotation: { y: "+=30" },
-  //       repeat: -1,
-  //       ease: "linear",
-  //     });
-
-  //     viewerRef.current = viewer;
-  //     setLoading(false); // Set loading to false once the viewer is set up
-  //   } catch (error) {
-  //     console.error("Error setting up viewer:", error);
-  //     setLoading(false); // Set loading to false in case of an error
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   setupViewer();
-  // }, [setupViewer]);
-
-  // useEffect(() => {
-  //   // Cleanup function when the component is unmounted or when scene changes
-  //   return () => {
-  //     if (viewerRef.current) {
-  //       viewerRef.current.dispose();
-  //     }
-  //   };
-  // }, [scene]);
-
-  const { scene: scene1, materials } = useGLTF("/wine.glb");
-  // console.log(materials);
-
-  const abricoTexture = useLoader(TextureLoader, `/abrico.png`);
-  const blackTexture = useLoader(TextureLoader, `/black.png`);
-  const wineTexture = useLoader(TextureLoader, `/wine.png`);
-
-  const myTextures = {
-    abrico: abricoTexture,
-    black: blackTexture,
-    wine: wineTexture,
+  const updateScene = (scene) => {
+    setScene(scene);
   };
-  // console.log(materials?.Black);
-  const updateScene = async (scene) => {
-    setScene(myTextures?.[scene]);
-  };
-
-  if (materials?.Black?.map) {
-    // console.log(JSON.stringify(materials.Black.map));
-    materials.Black.map = scene ? scene : materials.Black.map;
-    materials.Black.map.colorSpace = "srgb";
-    materials.Black.map.flipY = false;
+  
+  const updateType = (type) => {
+    setType(type)
+    setScene(type == "hoodie" ? BlackImage : ShirtBlack)
   }
 
-  console.log(scene)
   return (
     <div className="product-card" id="product">
-      <div
-        id="webgi-canvas-container"
-        className={`${activeWebGi ? "active" : ""}`}
-      >
-        <Canvas>
-          <primitive object={scene1} />
-          <ambientLight intensity={1} />
-          <Environment files={'/gem_2.hdr'} />
-
-          <OrbitControls />
-        </Canvas>
-        <img src={logoglow} alt="logo glowing" />
-          <p>
-            Interact with your hoodie <i className="fa-regular fa-hand"></i>
-          </p>
+      <div id="webgi-canvas-container">
+        <img src={scene} alt="Hoodie" className={
+          scene === "/src/assets/images/style-3.png" ? "black" : scene === "/src/assets/images/style-2.png" ? "wine" : scene === "/src/assets/images/style-4.png" ? "white_shirt" : scene === "/src/assets/images/style-5.png" ? "black_shirt" : "white"
+        } />
       </div>
 
       <div className="product-style">
         <div className="product-head">
-          <h3>Luv Hoodie</h3>
-          <h3>$65</h3>
+          <h3>Luv {type === "hoodie" ? "Hoodie" : "T-shirt"}</h3>
+          <h3>{type === "hoodie" ? "65$" : "50$"}</h3>
         </div>
-
+        <p className="variant">Type</p>
+        <ul className="types">
+          <button onClick={() => updateType('hoodie')} className="type_btn">Hoodie</button>
+          <button onClick={() => updateType('shirt')} className="type_btn">Shirt</button>
+        </ul>
         <p className="variant">COLOR</p>
         <ul className="colors">
-          <li
-            onClick={() => updateScene("black")}
-            className={`black ${scene === "black" ? "active" : ""}`}
-          ></li>
-          <li
-            onClick={() => updateScene("abrico")}
-            className={`white ${scene === "abrico" ? "active" : ""}`}
-          ></li>
-          <li
-            onClick={() => updateScene("wine")}
-            className={`red ${scene === "wine" ? "active" : ""}`}
-          ></li>
+          <li onClick={() => updateScene(type === "hoodie" ? BlackImage : ShirtBlack)} className="black"></li>
+          <li onClick={() => updateScene(type === "hoodie" ? WhiteImage : ShirtWhite)} className="white"></li>
+          {
+            type === "hoodie" &&   <li onClick={() => updateScene(WineImage)} className="red"></li>
+          }
         </ul>
         <p className="variant"> SIZE</p>
         <ul className="sizes">
-          <li
-            onClick={() => setSize("S")}
-            className={`${size === "S" ? "active" : ""}`}
-          >
-            S
-          </li>
-          <li
-            onClick={() => setSize("L")}
-            className={`${size === "L" ? "active" : ""}`}
-          >
-            L
-          </li>
-          <li
-            onClick={() => setSize("XL")}
-            className={`${size === "XL" ? "active" : ""}`}
-          >
-            XL
-          </li>
+          <li onClick={() => setSize("S")} className={size === "S" ? "active" : ""}>S</li>
+          <li onClick={() => setSize("L")} className={size === "L" ? "active" : ""}>L</li>
+          <li onClick={() => setSize("XL")} className={size === "XL" ? "active" : ""}>XL</li>
         </ul>
-        <PayPalButton
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-        />
+        <PayPalButton price={type === "hoodie" ? "65" : "50"} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
         <p className="text-danger">{error && error}</p>
         <p className="text-success">{success && success}</p>
       </div>
