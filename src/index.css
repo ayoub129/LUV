@@ -387,7 +387,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .product-card #webgi-canvas-container:has(.white_shirt) {
-  background-color: #000000;
+  background-color: #000000 !important;
 }
 
 
@@ -567,12 +567,69 @@ body::-webkit-scrollbar-thumb {
   padding: 1rem 0;
 }
 
+.interact  > div:first-child  {
+  height: 90% !important;
+}
 
+.card-logo {
+  width: 100px;
+  position: absolute;
+  left: 125px;
+  top: 40%;
+}
+
+.logowine {
+  left: 115px;
+}
+
+.logowhite {
+  left: 115px;
+}
 
 @media (max-width: 900px) {
   .card-container {
     flex-direction: column;
     width: 90%;
+  }
+
+  .product-card #webgi-canvas-container img.wine ,.product-card #webgi-canvas-container img.white {
+    margin-left: 4rem !important;
+  }
+
+  .product-card #webgi-canvas-container img.black {
+    margin-left: 2rem !important;
+  }
+
+
+  .card-logo {
+    left: 90px;
+  }
+  
+  .logowine {
+    left: 90px;
+  }
+  
+  .logowhite {
+    left: 80px;
+  }
+
+  .interact {
+    width: 70% !important;
+    padding: 35px !important;
+    height: 450px;
+    margin: 4rem auto;
+    cursor: grab;
+    text-align: center;
+    background-color: #E2E2E2;
+    border-radius: 2rem;
+  }
+
+  .product-card #webgi-canvas-container img.white_shirt {
+    width: 400px !important;
+  }
+  
+  .product-card #webgi-canvas-container img.black_shirt {
+    width: 400px !important;
   }
 
   .product-style {
@@ -679,17 +736,20 @@ body::-webkit-scrollbar-thumb {
 }
 
 .product-card #webgi-canvas-container img.black {
-  width: 320px;
+  width: 325px;
+  height: 356px;
 }
 
 .product-card #webgi-canvas-container img.white {
   margin-left: 2rem;
-  width: 280px;
+  width: 270px;
+  height: 356px;
 }
 
 .product-card #webgi-canvas-container img.wine {
-  margin-left: 2.75rem;
-  width: 295px;
+  margin-left: 1.75rem;
+  width: 298px;
+  height: 356px;
 }
 
 .product-card #webgi-canvas-container img.white_shirt {
