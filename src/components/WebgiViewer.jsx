@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import PayPalButton from "./PaypalButton";
-import BlackImage from "../assets/images/style-3.png";
-import WhiteImage from "../assets/images/style-1.png";
-import WineImage from "../assets/images/style-2.png";
+import BlackImage from "../assets/images/style-rm-3.png";
+import WhiteImage from "../assets/images/style-rm-1.png";
+import WineImage from "../assets/images/style-rm-2.png";
+import WhiteLogo from "../assets/images/white-logo.png"
+import BlackLogo from "../assets/images/black-logo.png"
 import ShirtWhite from "../assets/images/style-4.png";
 import ShirtBlack from "../assets/images/style-5.png";
 
@@ -53,9 +55,9 @@ const WebgiViewer = () => {
   return (
     <div className="product-card" id="product">
       <div id="webgi-canvas-container">
-        <img src={scene} alt="Hoodie" className={
-          scene === "/src/assets/images/style-3.png" ? "black" : scene === "/src/assets/images/style-2.png" ? "wine" : scene === "/src/assets/images/style-4.png" ? "white_shirt" : scene === "/src/assets/images/style-5.png" ? "black_shirt" : "white"
-        } />
+        <img src={scene} alt="hoodie" className={scene === "/src/assets/images/style-rm-3.png" ? "black card-img" : scene === "/src/assets/images/style-rm-2.png" ? "wine card-img" : scene === "/src/assets/images/style-4.png" ? "white_shirt card-img" : scene === "/src/assets/images/style-5.png" ? "black_shirt card-img" : "white card-img"}/>
+        {scene == "/src/assets/images/style-rm-2.png" || scene == "/src/assets/images/style-rm-3.png" || scene == "/src/assets/images/style-rm-1.png"  ? (<img src={scene === "/src/assets/images/style-rm-1.png" ? BlackLogo : WhiteLogo} alt="logo" className={`card-logo  ${scene === "/src/assets/images/style-rm-3.png" ? "logoblack" : scene === "/src/assets/images/style-rm-2.png" ? "logowine" : "logowhite"}`} />) : ""
+        } 
       </div>
 
       <div className="product-style">
