@@ -21,7 +21,6 @@ const Jumbotron = () => {
         <Card Style={StyleTwo} text={"Wine"} gl={WhiteGlowLogo} logo={WhiteLogo} ></Card>
         <Card Style={StyleThree} text={"Black"} gl={WhiteGlowLogo} logo={WhiteLogo} ></Card>
       </div>
-      <strong className="history">This represents the person who has been through a lot, had their soul/heart hurt, and still stands strong.</strong>
     </div>
   );
 };
