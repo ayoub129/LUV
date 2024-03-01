@@ -1,4 +1,5 @@
 import About from "../components/About";
+import Hoodie from "../components/Hoodie"
 import Footer from "../components/Footer";
 import Jumbotron from "../components/Jumbotron";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -11,6 +12,8 @@ const Home = () => {
         <div className="App">
             <Jumbotron />
             <About  />
+            <strong className="history">This represents the person who has been through a lot, had their soul/heart hurt, and still stands strong.</strong>
+            <Hoodie />
             <Footer />
         </div>
      </PayPalScriptProvider>
