@@ -56,6 +56,7 @@ const WebgiViewer = () => {
     <div className="product-card" id="product">
       <div id="webgi-canvas-container">
         <img src={scene} alt="hoodie" className={scene === "/src/assets/images/style-rm-3.png" ? "black card-img" : scene === "/src/assets/images/style-rm-2.png" ? "wine card-img" : scene === "/src/assets/images/style-4.png" ? "white_shirt card-img" : scene === "/src/assets/images/style-5.png" ? "black_shirt card-img" : "white card-img"}/>
+        {/* logo */}
         {scene == "/src/assets/images/style-rm-2.png" || scene == "/src/assets/images/style-rm-3.png" || scene == "/src/assets/images/style-rm-1.png"  ? (<img src={scene === "/src/assets/images/style-rm-1.png" ? BlackLogo : WhiteLogo} alt="logo" className={`card-logo  ${scene === "/src/assets/images/style-rm-3.png" ? "logoblack" : scene === "/src/assets/images/style-rm-2.png" ? "logowine" : "logowhite"}`} />) : ""
         } 
       </div>
