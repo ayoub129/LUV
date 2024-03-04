@@ -16,8 +16,7 @@ const Home = () => {
             <Jumbotron />
             <About  />
             <strong className="history">This represents the person who has been through a lot, had their soul/heart hurt, and still stands strong.</strong>
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* Render Hoodie component */}
+            <Suspense fallback={<div className="text-center mt-2">Loading...</div>}>
               <Hoodie />
             </Suspense>
             <Footer />
