@@ -3,7 +3,7 @@ import { Canvas, useLoader } from "react-three-fiber";
 import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { TextureLoader } from "three";
 
-const WebgiViewer = () => {
+const Hoodie = () => {
   const [texture, setTexture] = useState(null);
 
   // Load the GLTF model
@@ -40,4 +40,4 @@ const WebgiViewer = () => {
   );
 };
 
-export default WebgiViewer;
+export default Hoodie;
