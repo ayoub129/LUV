@@ -686,7 +686,19 @@ body::-webkit-scrollbar-thumb {
   }
 
   .product-card #webgi-canvas-container img.black {
-    margin-left: 0rem !important;
+    margin-left: -0.5rem !important;
+  }
+
+  .card-logo {
+    left: 133px;
+  }
+  
+  .logowine {
+    left: 120px;
+  }
+  
+  .logowhite {
+    left: 116px;
   }
 }
 
@@ -831,4 +843,8 @@ body::-webkit-scrollbar-thumb {
 .type_btn:hover {
   background-color: #9bdc28;
   transition: 0.5s;
+}
+
+.mt-2 {
+  margin-top: 16px;
 }
