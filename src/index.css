@@ -686,19 +686,19 @@ body::-webkit-scrollbar-thumb {
   }
 
   .product-card #webgi-canvas-container img.black {
-    margin-left: -0.5rem !important;
+    margin-left: -1rem !important;
   }
 
   .card-logo {
-    left: 133px;
+    left: 115px;
   }
   
   .logowine {
-    left: 120px;
+    left: 110px;
   }
   
   .logowhite {
-    left: 116px;
+    left: 105px;
   }
 }
 
