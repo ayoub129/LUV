@@ -20,9 +20,6 @@ const Hoodie = () => {
   // Update the material when the texture is loaded
   if (materials?.Black?.map && texture) {
     materials.Black.map = texture;
-    materials.Black.map.encoding = 3000; // sRGBEncoding
-    materials.Black.map.flipY = false;
-    materials.Black.needsUpdate = true;
   }
 
   return (
