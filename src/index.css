@@ -695,12 +695,12 @@ body::-webkit-scrollbar-thumb {
   }
 
   .product-card #webgi-canvas-container img.white_shirt {
-    width: fit-content;
-  }
+    width: 100% !important;
+    }
   
   .product-card #webgi-canvas-container img.black_shirt {
-    width: fit-content;
-  }
+    width: 100% !important;
+    }
   
 }
 
