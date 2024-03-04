@@ -624,14 +624,6 @@ body::-webkit-scrollbar-thumb {
     border-radius: 2rem;
   }
 
-  .product-card #webgi-canvas-container img.white_shirt {
-    width: 400px !important;
-  }
-  
-  .product-card #webgi-canvas-container img.black_shirt {
-    width: 400px !important;
-  }
-
   .product-style {
     margin: 0 2rem;
     width: 90%;
@@ -663,6 +655,7 @@ body::-webkit-scrollbar-thumb {
 
   .about-text {
     width: 95% !important;
+    margin-right: 0 !important;
   }
 
   .product-card {
@@ -686,20 +679,29 @@ body::-webkit-scrollbar-thumb {
   }
 
   .product-card #webgi-canvas-container img.black {
-    margin-left: -1rem !important;
+    margin-left: -1.25rem !important;
   }
 
   .card-logo {
-    left: 115px;
+    left: 105px;
   }
   
   .logowine {
-    left: 110px;
+    left: 106px;
   }
   
   .logowhite {
-    left: 105px;
+    left: 102px;
   }
+
+  .product-card #webgi-canvas-container img.white_shirt {
+    width: fit-content;
+  }
+  
+  .product-card #webgi-canvas-container img.black_shirt {
+    width: fit-content;
+  }
+  
 }
 
 @media (max-width: 1100px) {
