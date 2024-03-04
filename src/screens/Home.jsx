@@ -1,8 +1,11 @@
+import React, { Suspense } from "react";
 import About from "../components/About";
-import Hoodie from "../components/Hoodie"
 import Footer from "../components/Footer";
 import Jumbotron from "../components/Jumbotron";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+const Hoodie = React.lazy(() => import("../components/Hoodie"));
+
 
 const PAYPAL_CLIENT_ID = import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID;
 
@@ -13,7 +16,10 @@ const Home = () => {
             <Jumbotron />
             <About  />
             <strong className="history">This represents the person who has been through a lot, had their soul/heart hurt, and still stands strong.</strong>
-            <Hoodie />
+            <Suspense fallback={<div>Loading...</div>}>
+              {/* Render Hoodie component */}
+              <Hoodie />
+            </Suspense>
             <Footer />
         </div>
      </PayPalScriptProvider>
