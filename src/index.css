@@ -602,15 +602,18 @@ body::-webkit-scrollbar-thumb {
 
 
   .card-logo {
-    left: 153px;
+    left: calc(50% - 40px);
+    text-align: center;
   }
   
   .logowine {
-    left: 150px;
+    left: calc(50% - 30px);
+    text-align: center;
   }
   
   .logowhite {
-    left: 146px;
+    left: calc(50% - 30px);
+    text-align: center;
   }
 
   .interact {
@@ -649,8 +652,9 @@ body::-webkit-scrollbar-thumb {
   }
 
   .about-image {
-    width: 95% !important;
-    margin-bottom: 3rem;
+    width: 95% !important;    
+    text-align: center;
+    margin: 0 auto 3rem;
   }
 
   .about-text {
@@ -666,6 +670,7 @@ body::-webkit-scrollbar-thumb {
     width: 100%;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
+    text-align: center;
   }
 
   .product-card {
@@ -674,31 +679,34 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (max-width: 550px) {
-  .product-card #webgi-canvas-container img.wine ,.product-card #webgi-canvas-container img.white {
+  . #webgi-canvas-container img.wine ,. #webgi-canvas-container img.white {
     margin-left: 1rem !important;
   }
 
-  .product-card #webgi-canvas-container img.black {
+  . #webgi-canvas-container img.black {
     margin-left: -1.25rem !important;
   }
 
   .card-logo {
-    left: 105px;
+    left: calc(50% - 40px);
+    text-align: center;
   }
   
   .logowine {
-    left: 106px;
+    left: calc(50% - 30px);
+    text-align: center; 
   }
   
   .logowhite {
-    left: 102px;
+    left: calc(50% - 30px);
+    text-align: center;
   }
 
-  .product-card #webgi-canvas-container img.white_shirt {
+  . #webgi-canvas-container img.white_shirt {
     width: 100% !important;
     }
   
-  .product-card #webgi-canvas-container img.black_shirt {
+  . #webgi-canvas-container img.black_shirt {
     width: 100% !important;
     }
   
@@ -711,7 +719,7 @@ body::-webkit-scrollbar-thumb {
   }
 
   .product-card {
-    width: 95%;
+    width: 100%;
   }
 }
 
