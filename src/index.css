@@ -671,7 +671,7 @@ body::-webkit-scrollbar-thumb {
 
 @media (max-width: 550px) {
 
-  . #webgi-canvas-container img.black {
+  #webgi-canvas-container img.black {
       transform: translateX(-15px);
   }
 
