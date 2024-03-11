@@ -670,26 +670,23 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (max-width: 550px) {
-  . #webgi-canvas-container img.wine ,. #webgi-canvas-container img.white {
-    margin-left: 1rem !important;
-  }
 
   . #webgi-canvas-container img.black {
-    margin-left: -1.25rem !important;
+      transform: translateX(-15px);
   }
 
   .card-logo {
-    left: calc(50% - 40px);
+    left: calc(50% - 55px);
     text-align: center;
   }
   
   .logowine {
-    left: calc(50% - 30px);
+    left: calc(50% - 50px);
     text-align: center; 
   }
   
   .logowhite {
-    left: calc(50% - 30px);
+    left: calc(50% - 50px);
     text-align: center;
   }
 
@@ -764,7 +761,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 .product-card #webgi-canvas-container img.white {
-  margin-left: 2rem;
   width: 270px;
   height: 356px;
 }
