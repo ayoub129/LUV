@@ -592,27 +592,18 @@ body::-webkit-scrollbar-thumb {
     width: 90%;
   }
 
-  .product-card #webgi-canvas-container img.wine ,.product-card #webgi-canvas-container img.white {
-    margin-left: 4rem !important;
-  }
-
-  .product-card #webgi-canvas-container img.black {
-    margin-left: 2rem !important;
-  }
-
-
   .card-logo {
     left: calc(50% - 40px);
     text-align: center;
   }
   
   .logowine {
-    left: calc(50% - 30px);
+    left: calc(50% - 60px);
     text-align: center;
   }
   
   .logowhite {
-    left: calc(50% - 30px);
+    left: calc(50% - 60px);
     text-align: center;
   }
 
